@@ -21,6 +21,9 @@
 .blue{
   background-color: #374879;
 }
+.red{
+  background-color: #FC213D;
+}
 
 body {
   background: var(--background);
