@@ -1,8 +1,8 @@
-import Navbar from './components/navbar';
-import {mockData} from './data/mockData';
-import {NavbarData} from './types/types';
+import Navbar from '../../components/navbar';
+import {mockData} from '../../data/mockData';
+import {NavbarData} from '../../types/types';
 
-const Home:React.FC =() =>{
+const Project:React.FC =() =>{
     const navbarData: NavbarData = mockData["/project"];
     return (
         <div>
@@ -12,4 +12,4 @@ const Home:React.FC =() =>{
     )
 }
 
-export default Home;
+export default Project;
