@@ -18,6 +18,9 @@
     --foreground: #ededed;
   }
 }
+.blue{
+  background-color: #374879;
+}
 
 body {
   background: var(--background);
