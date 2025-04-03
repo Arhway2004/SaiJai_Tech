@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Search from 'antd/es/transfer/search';
 import Navbar from '../../components/navbar';
 import {mockData} from '../../data/mockData';
@@ -7,13 +8,65 @@ import {NavbarData} from '../../types/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import ProjectFrom from '../../components/Form/ProjectFrom';
+
 const Project: React.FC = () => {
     const navbarData: NavbarData = mockData["/project"];
-    const projects = [
+    const [userRole, setUserRole] = useState<string>('');
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+    const [showProjectForm, setShowProjectForm] = useState<boolean>(false);
+    const [formMode, setFormMode] = useState<'add' | 'edit'>('add');
+    const [currentProject, setCurrentProject] = useState<any>(null);
+    
+    const [projects, setProjects] = useState([
         {id: 1, name: "Project A", link:"dmosmcdsc", logo:"logo.jpg", type:"Water Flow"}
-    ];
+    ]);
     
     const totalProjects = projects.length;
+    
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            try {
+                const mockRole = 'Admin'; 
+                setUserRole(mockRole);
+                setIsAdmin(mockRole === 'Admin');
+            } catch (error) {
+                console.error('Error fetching user role:', error);
+                setUserRole('User'); 
+                setIsAdmin(false);
+            }
+        };
+        
+        fetchUserRole();
+    }, []);
+
+    const handleAddProject = (newProject) => {
+        // Generate a new ID (in a real app, this would come from the backend)
+        const newId = projects.length + 1;
+        setProjects([...projects, { ...newProject, id: newId }]);
+        setShowProjectForm(false);
+    };
+    
+    const handleEditProject = (updatedProject) => {
+        // Update the project in the projects array
+        setProjects(projects.map(project => 
+            project.id === updatedProject.id ? updatedProject : project
+        ));
+        setShowProjectForm(false);
+    };
+    
+    const openAddForm = () => {
+        setFormMode('add');
+        setCurrentProject(null);
+        setShowProjectForm(true);
+    };
+    
+    const openEditForm = (project) => {
+        setFormMode('edit');
+        setCurrentProject(project);
+        setShowProjectForm(true);
+    };
     
     return (
         <>
@@ -40,9 +93,13 @@ const Project: React.FC = () => {
                         <Link href="/project/filter" className='bg-gray-300 hover:bg-gray-400 text-black font-bold mr-2 px-5 py-2 rounded-lg'>
                             Filter
                         </Link>
-                        <Link href="/project/add" className='bg-[#FC213D] hover:bg-[#e21d36] text-white font-bold px-6 py-2 rounded-lg'>
-                            Add
-                        </Link>
+                        {isAdmin && (
+                            <button 
+                                onClick={openAddForm}
+                                className='bg-[#FC213D] hover:bg-[#e21d36] text-white font-bold px-6 py-2 rounded-lg'>
+                                Add
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -74,26 +131,44 @@ const Project: React.FC = () => {
                                     className="bg-blue-800 text-white px-4 py-2 rounded">
                                     View
                                 </Link>
-                                <Link 
-                                    href={`/project/${project.id}/edit`} 
-                                    className="bg-gray-300 text-black px-4 py-2 rounded">
-                                    Edit
-                                </Link>
-                                <button 
-                                    onClick={() => {
-                                        if(confirm('Are you sure you want to delete this project?')) {
-                                            console.log('Deleting project:', project.id);
-                                            // Add delete logic here
-                                        }
-                                    }}
-                                    className="bg-red-500 text-white px-4 py-2 rounded">
-                                    Delete
-                                </button>
+                                
+                                {isAdmin && (
+                                    <>
+                                        <button 
+                                            onClick={() => openEditForm(project)}
+                                            className="bg-gray-300 text-black px-4 py-2 rounded">
+                                            Edit
+                                        </button>
+                                        <button 
+                                            onClick={() => {
+                                                if(confirm('Are you sure you want to delete this project?')) {
+                                                    // Remove the project from the array
+                                                    setProjects(projects.filter(p => p.id !== project.id));
+                                                }
+                                            }}
+                                            className="bg-red-500 text-white px-4 py-2 rounded">
+                                            Delete
+                                        </button>
+                                    </>
+                                )}
                             </div>
                         </div>
                     ))}
                 </div>
+                
+                <div className="mt-4 text-sm text-gray-500">
+                    Current user role: {userRole}
+                </div>
             </div>
+            
+            {showProjectForm && (
+                <ProjectFrom 
+                    onClose={() => setShowProjectForm(false)}
+                    onSubmit={formMode === 'add' ? handleAddProject : handleEditProject}
+                    editData={currentProject}
+                    mode={formMode}
+                />
+            )}
         </>
     );
 };
