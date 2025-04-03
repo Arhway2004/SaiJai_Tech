@@ -9,7 +9,11 @@ import User from './components/Form/UserFrom';
 
 export default function Home () {
     return (
-        <User/>
+        // <User/>
+        <Station/>
+        // <Project/>
+
+
         // <h1>fjifsij</h1>
     );
 }
