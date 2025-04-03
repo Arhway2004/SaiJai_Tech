@@ -2,7 +2,37 @@
 import { Radio } from 'antd';
 import React, { useState } from 'react';
 
-export default function UserProjectForm() {
+interface StationFormProps {
+    onClose: () => void;
+    onSubmit: (projectData:any) => void;
+    editData?:{
+        id: number;
+        name:string;
+        organize:string;
+        phoneNumber:string;
+        location:string;
+        mapLink:string;
+        measurement:string;
+        organizingAgency:string;
+        type:string
+    }| null;
+    mode?: 'add' | 'edit';
+}
+
+
+export default function UserProjectForm({onClose, onSubmit, editData = null,mode='add'}:StationFormProps) {
+
+    const [formData,setFormData] = useState({
+        id: editData?.id || 0,
+        name: editData?.name || '',
+        organize: editData?.organize || '',
+        phoneNumber: editData?.phoneNumber || '',
+        location: editData?.location || '',
+        mapLink: editData?.mapLink || '',
+        measurement: editData?.measurement || '',
+        organizingAgency: editData?.organizingAgency || '',
+        type: editData?.type || 'Electricity'
+    })
     const [projectType, setProjectType] = useState<string>("WaterFlow");
     const [electricityPhase, setElectricityPhase] = useState("Phase 1");
     const [waterFlowType, setWaterFlowType] = useState("Ground water");

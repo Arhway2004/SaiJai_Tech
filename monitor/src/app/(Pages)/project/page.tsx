@@ -96,7 +96,7 @@ const Project: React.FC = () => {
                         {isAdmin && (
                             <button 
                                 onClick={openAddForm}
-                                className='bg-[#FC213D] hover:bg-[#e21d36] text-white font-bold px-6 py-2 rounded-lg'>
+                                className='bg-[#FC213D] hover:bg-[#e21d36] text-white font-bold px-6 py-2 rounded-lg cursor-pointer'>
                                 Add
                             </button>
                         )}
@@ -120,7 +120,7 @@ const Project: React.FC = () => {
                                     <div className="flex gap-4 text-sm">
                                         <span>{project.type}</span>
                                         <span></span>
-                                        <a className='text-blue-900' href={project.link} target="_blank" rel="noopener noreferrer">Link</a>
+                                        <a className='text-blue-800 hover:' href={project.link} target="_blank" rel="noopener noreferrer">Link</a>
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +128,7 @@ const Project: React.FC = () => {
                             <div className="flex gap-2">
                                 <Link 
                                     href={`/project/${project.id}/view`} 
-                                    className="bg-blue-800 text-white px-4 py-2 rounded">
+                                    className=" text-white px-4 py-2 rounded bg-[#374879] hover:bg-[#2b3c6e]">
                                     View
                                 </Link>
                                 
@@ -136,7 +136,7 @@ const Project: React.FC = () => {
                                     <>
                                         <button 
                                             onClick={() => openEditForm(project)}
-                                            className="bg-gray-300 text-black px-4 py-2 rounded">
+                                            className="bg-gray-300 hover:bg-gray-400  text-black px-4 py-2 rounded cursor-pointer">
                                             Edit
                                         </button>
                                         <button 
@@ -146,7 +146,7 @@ const Project: React.FC = () => {
                                                     setProjects(projects.filter(p => p.id !== project.id));
                                                 }
                                             }}
-                                            className="bg-red-500 text-white px-4 py-2 rounded">
+                                            className="bg-[#FC213D] hover:bg-[#e21d36]  text-white px-4 py-2 rounded cursor-pointer">
                                             Delete
                                         </button>
                                     </>
