@@ -1,15 +1,19 @@
-import Navbar from './components/navbar';
-import {mockData} from './data/mockData';
-import {NavbarData} from './types/types';
+"use client"
 
-const Home:React.FC =() =>{
-    const navbarData: NavbarData = mockData["/project"];
+import Image from 'next/image';
+import Project from './components/Form/ProjectFrom';
+import Station from './components/Form/StationFrom';
+import User from './components/Form/UserFrom';
+
+
+
+export default function Home () {
     return (
-        <div>
-            <Navbar leftText={navbarData.leftText} rightText={navbarData.rightText}></Navbar>
+        // <User/>
+        <Station/>
+        // <Project/>
 
-        </div>
-    )
+
+        // <h1>fjifsij</h1>
+    );
 }
-
-export default Home;

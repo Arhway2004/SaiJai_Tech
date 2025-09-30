@@ -35,7 +35,7 @@ const Navbar: React.FC<NavbarProps> =  ({leftText, rightText}) => {
                 <span>
                     {role === "admin " ? "admin " : role === "Employee " ? "Employee " : "No Role "}
                 </span>
-                {role === null && <button className="" onClick={() => console.log("Button clicked!")}>+</button>}
+                {role === null && <button className="text-whtie hover:text-gray-300 cursor-pointer" onClick={() => console.log("Button clicked!")}>+</button>}
             </div>
         </div>
     )
